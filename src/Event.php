@@ -33,4 +33,16 @@ final class Event
             throw new RuntimeException("trigger, $event is not exists");
         }
     }
+
+    public function counts() {
+        return count($this->events);
+    }
+
+    public function remove($event) {
+        unset($this->events[$event]);
+    }
+
+    public function exists($event) {
+        return key_exists($event, $this->events);
+    }
 }
