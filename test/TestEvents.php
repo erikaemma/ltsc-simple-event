@@ -21,5 +21,25 @@ class TestEvents extends \PHPUnit\Framework\TestCase
         });
         $result = $events->emit('load', "data");
         $this->assertSame([99 => true, 25 => 'data', 1 => false], $result);
+
+        return $events;
+    }
+
+    /**
+     * @depends testEventsEmit
+     */
+    public function testEventsCount(\LTSC\Event\Events $events) {
+        $this->assertEquals(1, $events->counts());
+        $this->assertEquals(3, $events->counts('load'));
+    }
+
+    /**
+     * @depends testEventsEmit
+     */
+    public function testEventsRemove(\LTSC\Event\Events $events) {
+        $events->remove('load', 25);
+        $this->assertEquals(2, $events->counts('load'));
+        $events->remove('load');
+        $this->assertEquals(0, $events->counts());
     }
 }
